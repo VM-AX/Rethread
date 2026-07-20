@@ -9,7 +9,7 @@ const listingSchema = new mongoose.Schema(
   {
     seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     title: { type: String, required: [true, 'Title is required'], trim: true, maxlength: 120 },
-    slug: { type: String, unique: true, sparse: true, index: true },
+    slug: { type: String, unique: true, sparse: true },
     description: { type: String, required: [true, 'Description is required'], maxlength: 3000 },
 
     category: {

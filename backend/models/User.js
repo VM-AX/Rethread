@@ -87,7 +87,6 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.index({ role: 1 });
-userSchema.index({ email: 1 });
 
 userSchema.pre('save', async function hashPassword(next) {
   if (!this.isModified('password')) return next();
