@@ -38,7 +38,7 @@ Instead of throwing clothes away, users can extend the life of garments while re
 
 ---
 
-# ✨ Core Features
+# ✨ Core Feature
 
 | Feature | Description |
 |----------|-------------|
