@@ -57,9 +57,15 @@ export default function ListingDetail() {
 
   const handleMessageSeller = async () => {
     if (!user) return navigate('/login');
+    const sellerId = listing.seller?._id || listing.seller;
+    if (!sellerId) return toast.error('Seller details unavailable');
+    if (String(user._id) === String(sellerId)) {
+      return toast.error('You cannot message yourself on your own listing');
+    }
     try {
-      const { data } = await messageApi.startConversation(listing.seller._id, listing._id);
-      navigate(`/buyer/messages?conversation=${data.data._id}`);
+      const { data } = await messageApi.startConversation(sellerId, listing._id);
+      const targetRoute = user.role === 'seller' ? '/seller/messages' : '/buyer/messages';
+      navigate(`${targetRoute}?conversation=${data.data._id}`);
     } catch (err) {
       toast.error(err.response?.data?.message || 'Could not start conversation');
     }
@@ -162,15 +168,21 @@ export default function ListingDetail() {
           <p className="mt-5 whitespace-pre-line text-sm text-forest-700">{listing.description}</p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            {user?.role === 'buyer' && listing.status === 'active' && (
+            {listing.status === 'active' && (
               <>
-                <button className="btn btn-primary" onClick={handleAddToCart}>
-                  Add to cart
-                </button>
-                <OfferButton listing={listing} />
-                <button className="btn btn-secondary" onClick={handleMessageSeller}>
-                  Message seller
-                </button>
+                {user?.role === 'buyer' && (
+                  <>
+                    <button className="btn btn-primary" onClick={handleAddToCart}>
+                      Add to cart
+                    </button>
+                    <OfferButton listing={listing} />
+                  </>
+                )}
+                {(!user || String(user._id) !== String(listing.seller?._id || listing.seller)) && (
+                  <button className="btn btn-secondary" onClick={handleMessageSeller}>
+                    Message seller
+                  </button>
+                )}
               </>
             )}
             {!user && (
