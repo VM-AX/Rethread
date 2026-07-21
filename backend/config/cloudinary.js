@@ -1,3 +1,4 @@
+// Incase of Photo upload
 const cloudinary = require('cloudinary').v2;
 
 const isCloudinaryConfigured =
