@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+require('./User');
+require('./Listing');
 
 // Conversation groups two participants around an optional listing context.
 const conversationSchema = new mongoose.Schema(

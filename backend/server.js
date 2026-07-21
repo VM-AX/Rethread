@@ -25,8 +25,6 @@ const adminRoutes = require('./routes/adminRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const dashboardStatsRoutes = require('./routes/dashboardStatsRoutes');
 
-connectDB();
-
 const app = express();
 
 const allowedOrigins = [
@@ -79,8 +77,14 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`ReThread API listening on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
-});
+
+const startServer = async () => {
+  await connectDB();
+  app.listen(PORT, () => {
+    console.log(`ReThread API listening on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
+  });
+};
+
+startServer();
 
 module.exports = app;

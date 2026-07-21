@@ -1,5 +1,7 @@
 const asyncHandler = require('../middleware/asyncHandler');
 const { ApiError } = require('../middleware/errorHandler');
+const User = require('../models/User');
+const Listing = require('../models/Listing');
 const { Conversation, Message } = require('../models/Message');
 
 // ---------- Module: Buyer-Seller Messaging (6 APIs) ----------
@@ -10,18 +12,23 @@ const { Conversation, Message } = require('../models/Message');
 const startConversation = asyncHandler(async (req, res) => {
   const { recipientId, listingId } = req.body;
   if (!recipientId) throw new ApiError(400, 'recipientId is required');
-  if (recipientId === String(req.user._id)) throw new ApiError(400, 'Cannot message yourself');
+  if (String(recipientId) === String(req.user._id)) throw new ApiError(400, 'Cannot message yourself');
 
   let conversation = await Conversation.findOne({
     participants: { $all: [req.user._id, recipientId], $size: 2 },
     ...(listingId ? { listing: listingId } : {}),
-  });
+  })
+    .populate('participants', 'name avatarUrl role')
+    .populate('listing', 'title images');
 
   if (!conversation) {
-    conversation = await Conversation.create({
+    const created = await Conversation.create({
       participants: [req.user._id, recipientId],
       listing: listingId || undefined,
     });
+    conversation = await Conversation.findById(created._id)
+      .populate('participants', 'name avatarUrl role')
+      .populate('listing', 'title images');
   }
 
   res.status(201).json({ success: true, data: conversation });
