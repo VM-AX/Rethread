@@ -93,13 +93,13 @@ Repair Orders
 
 #  AI Features
 
-✔ Clothing Condition Detection
+ Clothing Condition Detection
 
-✔ AI Damage Analysis
+ AI Damage Analysis
 
-✔ Authenticity Score
+ Authenticity Score
 
-✔ Smart Recommendations
+ Smart Recommendations
 
 Example Report
 
@@ -414,24 +414,6 @@ VITE_API_URL=
 - Analytics
 
 </details>
-
----
-
-# 📸 Screenshots
-
-| Home | Marketplace |
-|------|-------------|
-| Add Screenshot | Add Screenshot |
-
-| Seller Dashboard | Admin Dashboard |
-|-----------------|----------------|
-| Add Screenshot | Add Screenshot |
-
-| Repair Booking | Auction |
-|---------------|---------|
-| Add Screenshot | Add Screenshot |
-
----
 
 #  Security
 
